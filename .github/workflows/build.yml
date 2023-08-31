@@ -102,6 +102,7 @@ jobs:
   build-two:
     name: Build Two
     runs-on: ubuntu-22.04
+    needs: build-one
     permissions:
       contents: read
       packages: write
