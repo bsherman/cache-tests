@@ -169,13 +169,13 @@ jobs:
 
       - uses: actions/download-artifact@v3
         name: Image Download
-        with:
-          name: ti1
-          path: test-image-one.tar
+        #with:
+        #  name: ti1
+        #  path: test-image-one.tar
 
       - name: Podman Images
         run: |
-          ls -l
+          ls -lR
           podman images
           podman load -i test-image-one.tar
           podman images
