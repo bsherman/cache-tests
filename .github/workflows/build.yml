@@ -105,6 +105,7 @@ jobs:
         with:
           name: ti1
           path: test-image-one.tar
+          retention-days: 7
 
   build-two:
     name: Build Two
@@ -169,15 +170,14 @@ jobs:
 
       - uses: actions/download-artifact@v3
         name: Image Download
-        #with:
-        #  name: ti1
-        #  path: test-image-one.tar
+        with:
+          name: ti1
 
       - name: Podman Images
         run: |
           ls -lR
           podman images
-          podman load -i test-image-one.tar
+          podman load -i ti1/test-image-one.tar
           podman images
 
       # Build image using Buildah action
