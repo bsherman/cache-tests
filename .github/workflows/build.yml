@@ -177,7 +177,7 @@ jobs:
         run: |
           ls -lR
           podman images
-          podman load -i ti1/test-image-one.tar
+          podman load -i test-image-one.tar
           podman images
 
       # Build image using Buildah action
