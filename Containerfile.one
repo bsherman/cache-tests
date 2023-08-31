@@ -1,3 +1,3 @@
-FROM docker.io/library/caddy:latest AS test-caddy
+FROM docker.io/library/caddy:latest
 
 RUN ls -l /usr/bin/caddy

@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: test-caddy
+  IMAGE_NAME: test-image
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
@@ -77,10 +77,9 @@ jobs:
             org.opencontainers.image.description=Test image One with caddy
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository }}/main/README.md
 
-      - name: Buildah Info
+      - name: Podman Images
         run: |
-          buildah info
-          buildah images
+          podman images
 
       # Build image using Buildah action
       - name: Build Image
@@ -95,9 +94,16 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           oci: false
 
-      - name: Buildah Export
+      - name: Image Save
         run: |
-          buildah images
+          podman images
+          podman save -o test-image-one.tar test-image-one
+
+      - uses: actions/upload-artifact@v3
+        name: Image Upload
+        with:
+          name: ti1
+          path: test-image-one.tar
 
   build-two:
     name: Build Two
@@ -160,10 +166,18 @@ jobs:
             org.opencontainers.image.description=Test image Two with caddy
             io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository }}/main/README.md
 
-      - name: Buildah Info
+      - uses: actions/download-artifact@v3
+        name: Image Download
+        with:
+          name: ti1
+          path: test-image-one.tar
+
+      - name: Podman Images
         run: |
-          buildah info
-          buildah images
+          ls -l
+          podman images
+          podman load -i test-image-one.tar
+          podman images
 
       # Build image using Buildah action
       - name: Build Image
@@ -178,6 +192,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           oci: false
 
-      - name: Buildah Export
+      - name: Podman Images
         run: |
-          buildah images
+          podman images
