@@ -1,0 +1,3 @@
+FROM test-caddy AS test-caddy-two
+
+COPY --from=cgr.dev/chainguard/kubectl:latest /usr/bin/kubectl /usr/bin/kubectl
